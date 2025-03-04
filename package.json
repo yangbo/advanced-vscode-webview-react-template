@@ -1,12 +1,17 @@
 {
-  "name": "hello-world-react-vite",
-  "displayName": "hello-world-react-vite",
-  "description": "A hello world sample extension to demonstrate using React + Vite with the Webview UI Toolkit for VS Code.",
+  "name": "advance-vscode-webview-react-template",
+  "displayName": "advance-vscode-webview-react-template",
+  "description": "这是一个高级的 vscode webview 扩展模板，使用 React + Vite + Webview UI Toolkit 实现，支持调试 webview 中的 react app。",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yangbo/advanced-vscode-webview-react-template"
+  },
   "engines": {
     "vscode": "^1.75.0"
   },
   "main": "./out/extension.js",
+  "activationEvents": [],
   "contributes": {
     "commands": [
       {
@@ -19,6 +24,8 @@
     "install:all": "npm install && cd webview-ui && npm install",
     "start:webview": "cd webview-ui && npm run start",
     "build:webview": "cd webview-ui && npm run build",
+    "build:extension": "vsce package",
+    "build": "npm run build:webview && npm run build:extension",
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
