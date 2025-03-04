@@ -1,0 +1,11 @@
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100%;
+  color: var(--vscode-editor-foreground);
+  border: 1px solid;
+  border-color: brown;
+  margin: 0;
+}
