@@ -119,6 +119,18 @@ export class HelloWorldPanel {
 <html>
 <head>
   <title>Webview 主页面</title>
+  <style>
+    html, body {
+      height: 100%; /* 确保父容器占据整个视口高度 */
+      margin: 0;
+      padding: 0;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none; /* 移除 iframe 边框 */
+    }
+  </style>
 </head>
 <body>
   <iframe id="myIframe" src="${htmlUri}" width="100%" height="100%"></iframe> 

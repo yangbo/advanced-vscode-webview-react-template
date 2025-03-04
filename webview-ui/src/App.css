@@ -5,7 +5,8 @@ main {
   align-items: flex-start;
   height: 100%;
   color: var(--vscode-editor-foreground);
-  border: 1px solid;
-  border-color: brown;
-  margin: 0;
+}
+
+h1 {
+  margin: 0 auto;
 }
