@@ -145,9 +145,10 @@ export class HelloWorldPanel {
      * 创建 main frame 和 iframe 之间的 Message Channel，
      * 实现 WebView.postMessage() 函数代理
      */
-    function proxyPostMessage(iframe, vscode){
+    function proxyVscode(iframe, vscode){
       // 在 iframe onloaded 事件时再发送 vscode api 到 iframe
       iframe.onload = function() {
+        // 代理 vscode.postMesssage() 函数
         console.log("[main frame] 创建消息通道，实现 postMessage 函数代理");
         iframe.contentWindow.postMessage({
             command: 'createChannel',
@@ -159,6 +160,34 @@ export class HelloWorldPanel {
           console.log(event.data);
           vscode.postMessage(event.data);
         };
+
+        // 代理 vscode.getState() 函数
+        console.log("[main frame] 创建消息通道，实现 getState 函数代理");
+        iframe.contentWindow.postMessage({
+            command: 'createChannel',
+            api: "getState"
+        }, '*', [channelGetState.port2]);
+        // 侦听通道收到的消息
+        channelGetState.port1.onmessage = function(event) {
+          console.log("[main frame] 收到 iframe getState 消息: ");
+          console.log(event.data);
+          const state = vscode.getState();
+          // 发送 getState() 结果到 iframe
+          channelGetState.port1.postMessage(state);
+        }
+
+        // 代理 vscode.setState() 函数
+        console.log("[main frame] 创建消息通道，实现 setState 函数代理");
+        iframe.contentWindow.postMessage({
+            command: 'createChannel',
+            api: "setState"
+        }, '*', [channelSetState.port2]);
+        // 侦听通道收到的消息
+        channelSetState.port1.onmessage = function(event) {
+          console.log("[main frame] 收到 iframe setState 消息: ");
+          console.log(event.data);
+          const state = vscode.setState(event.data);
+        }
       }
     }
 
@@ -175,7 +204,7 @@ export class HelloWorldPanel {
     // 准备接收 iframe 的 vscode api 消息
     const iframe = document.getElementById('myIframe');
     if (window.vsCodeApi) {
-      proxyPostMessage(iframe, window.vsCodeApi);
+      proxyVscode(iframe, window.vsCodeApi);
     }
 
     // 传递 vscode 的 css 样式

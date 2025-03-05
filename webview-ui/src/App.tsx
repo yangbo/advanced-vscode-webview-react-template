@@ -2,13 +2,23 @@ import { vscode } from "./utilities/vscode";
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react";
 import "./App.css";
 
+type Count = {
+  count: number
+}
+
 function App() {
-  function handleHowdyClick() {
+  async function handleHowdyClick() {
+    let stat = await vscode.getState() as Count;
+    stat = stat || { count: 0 };
+
     console.log(`发送消息`);
     vscode.postMessage({
       command: "hello",
-      text: "你好，vscode 开发者! 🤠",
+      text: "你好，vscode 开发者! 🤠 count=" + stat.count,
     });
+
+    stat.count++;
+    vscode.setState(stat);
   }
 
   return (
